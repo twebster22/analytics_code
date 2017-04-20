@@ -1,7 +1,7 @@
 try {
 var s=s_gi({{LU s_account}});
 	var pageName = {{k AA Channel}};
-var contentHierarchy = []; 
+var contentHierarchy = [];
 	var urlPathSplit = {{Page Path}}.substr(1).split("/");
 
 	if ("/" === {{Page Path}}) {
@@ -28,7 +28,7 @@ s.server = {{JS getServer}};
 	if (contentHierarchy.length > 1) {
 		s.prop1 = contentHierarchy[0];
   	dataLayer.push({'category': contentHierarchy[0]});
-} 
+}
 
 if (contentHierarchy.length > 2) {
 		s.prop2 = contentHierarchy[1];

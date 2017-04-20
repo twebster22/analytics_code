@@ -1,0 +1,115 @@
+<script>
+  require(["jquery"], function() {
+    jQuery('.signup-message').bind("DOMNodeInserted", function(event) {
+      if ((/Thank you for signing up/).test(jQuery(event.target).find('span').text())) {
+        dataLayer.push({
+          'event': 'newsletterSignUpSuccess'
+        });
+        s.linkTrackVars = 'events';
+        s.linkTrackEvents = 'event16';
+        s.events = 'event16'
+        s.tl(this, 'o', 'Newsletter Signup');
+        s.linkTrackVars = 'None';
+        s.linkTrackEvents = 'None';
+      }
+    });
+    jQuery(document).on('mousedown', function(event) {
+      var element = jQuery(event.target);
+      //main navigation
+      if (element.is('.topnav-main a')) {
+        navHead = element.parents('.topnav-main-item').children('a').text().trim();
+        navParent = element.parents('.sub-category').find('a').text();
+        navElement = element.text().trim()
+        dataLayer.push({
+          'event': 'headerNavigationClick',
+          'navigationHeaderElement': navHead,
+          'navigationParentElement': navParent,
+          'navigationElement': navElement
+        });
+        if ({{Global navClick Interaction}} == 'true') {
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,eVar36';
+          s.linkTrackEvents = 'event25';
+          s.events = 'event25';
+          s.eVar36 = navHead + ':' + navParent + ':' + navElement;
+          s.tl(this, 'o', 'nav click');
+          s.linkTrackVars = s.origVars;
+          s.linkTrackEvents = 'None';
+        }
+
+      } else if (element.is('.footer-content.row a')) {
+          navParent = element.closest('.columns').find('.heading').text();
+          navElement = element.text().trim()
+          dataLayer.push({
+            'event': 'footerNavigationClick',
+            'navigationParentElement': navParent,
+            'navigationElement': navElement
+          });
+          if ({{Global navClick Interaction}} == 'true') {
+            s.origVars = s.linkTrackVars;
+            s.linkTrackVars = 'events,eVar36';
+            s.linkTrackEvents = 'event26';
+            s.events = 'event26';
+            s.eVar36 = 'Footer:' + navParent + ':' + navElement;
+            s.tl(this, 'o', 'nav click');
+            s.linkTrackVars = s.origVars;
+            s.linkTrackEvents = 'None';
+          }
+      } else if (element.hasParent('[id^="ES_HEADER_CONTENT_marketing"]')) {
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,eVar74';
+          s.linkTrackEvents = 'event101';
+          s.events = 'event101';
+          s.eVar74 = 'header-espot';
+          s.tl(this, 'o', 'espot click');
+          s.linkTrackEvents = "None";
+          s.linkTrackVars = s.origVars;
+      } else if (element.hasParent('[id^="ES_HEADER_TOP_NAV_WRG_KIDS_marketing"]')) {
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,eVar74';
+          s.linkTrackEvents = 'event101';
+          s.events = 'event101';
+          s.eVar74 = 'megamenu-kids';
+          s.tl(this, 'o', 'espot click');
+          s.linkTrackEvents = "None";
+          s.linkTrackVars = s.origVars;
+      } else if (element.hasParent('[id^="ES_HEADER_TOP_NAV_WRG_MEN_marketing"]')) {
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,eVar74';
+          s.linkTrackEvents = 'event101';
+          s.events = 'event101';
+          s.eVar74 = 'megamenu-men';
+          s.tl(this, 'o', 'espot click');
+          s.linkTrackEvents = "None";
+          s.linkTrackVars = s.origVars;
+      } else if (element.hasParent('[id^="ES_HEADER_TOP_NAV_WRG_WOMEN_marketing"]')) {
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,eVar74';
+          s.linkTrackEvents = 'event101';
+          s.events = 'event101';
+          s.eVar74 = 'megamenu-women';
+          s.tl(this, 'o', 'espot click');
+          s.linkTrackEvents = "None";
+          s.linkTrackVars = s.origVars;
+      } else if (element.is('.autosuggest-results__featured-results-item a') || element.hasParent('.autosuggest-results__featured-results-item a')) {
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,eVar28';
+          s.linkTrackEvents = 'event14';
+          s.events = 'event14';
+          s.eVar28 = 'Products:' + element.hasParent('.autosuggest-results__featured-results-item a',true).find('.autosuggest-results__featured-results-item__title').lText()
+          s.tl(this, 'o', 'quick search click');
+          s.linkTrackEvents = "None";
+          s.linkTrackVars = s.origVars;
+      } else if (element.is('.autosuggest-results__suggestions-list li')) {
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,eVar28';
+          s.linkTrackEvents = 'event14';
+          s.events = 'event14';
+          s.eVar28 = 'Keywords:' + element.lText();
+          s.tl(this, 'o', 'quick search click');
+          s.linkTrackEvents = "None";
+          s.linkTrackVars = s.origVars;
+      }
+    });
+  });
+</script>
