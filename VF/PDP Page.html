@@ -1,0 +1,209 @@
+<script type="text/javascript">
+  try {
+    var s = s_gi({{LU s_account}});
+    var pageName = {{k AA Channel}} + ":" + {{DL Page Category}} + ":" + {{JS EE Product ID}};
+    var breadcrumbArr = {{DL Breadcrumb}}.split("/");
+    s.pageName = pageName;
+    s.channel = {{k AA Channel}};
+    s.server = {{JS getServer}};
+
+    //ignore the last breadcrumb value, since that will be part of the pageName.
+    if (breadcrumbArr.length > 0) {
+      if ((/home/i).test(breadcrumbArr[0])) {
+        s.prop1 = {{DL Page Category}}
+      }
+      if ((/home/i).test(breadcrumbArr[0])) {
+        s.prop1 = {{DL Page Category}}
+      }
+      s.prop1 = breadcrumbArr[0];
+    }
+
+    if (breadcrumbArr.length > 1) {
+      s.prop2 = breadcrumbArr[1];
+      s.eVar4 = breadcrumbArr[1];
+      dataLayer.push({
+        'subcategory': breadcrumbArr[1]
+      });
+    }
+
+    if (breadcrumbArr.length > 2) {
+      s.prop3 = breadcrumbArr[2];
+      s.eVar4 = breadcrumbArr[2];
+      dataLayer.push({
+        'subcategory2': breadcrumbArr[2]
+      });
+    }
+
+    s.events = "prodView";
+    s.products = ";" + {{JS EE Product ID}};
+    if ({{DL Availability}} == "outofstock") {
+      s.eVar72 = 'URL:' + {{Page URL}} + '|Referrer' + {{HTTP Referrer}};
+    }
+    s.t();
+    require(["jquery"], function() {
+      jQuery('.color-swatches-js label img').on('mousedown', function(event) {
+        var element = jQuery(event.target)
+        dataLayer.push({
+          'event': 'pdpColorClick',
+          'color': element.attr('title')
+        });
+        if ({{colorClick Interaction}} == 'true') {
+          var s = s_gi(s_account);
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,eVar40,products';
+          s.linkTrackEvents = 'event28';
+          s.events = 'event28';
+          s.eVar40 = element.attr('title');
+          s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+          s.tl(this, 'o', 'color click');
+          s.linkTrackVars = s.origVars;
+          s.linkTrackEvents = 'None';
+        }
+      });
+      jQuery(document).on('mousedown', function(event) {
+        var element = jQuery(event.target).hasParent('a') ? jQuery(event.target).hasParent('a', true) : jQuery(event.target);
+        //fullscreen
+        if (element.is('div.btn-full')) {
+          dataLayer.push({
+            'event': 'imageFullscreen'
+          });
+
+        }
+        //size guide
+        /*else if(element.is('.size-chart-link')){
+                dataLayer.push({
+                        'event' : 'pdpSizingGuide'
+                });
+                s.origVars = s.linkTrackVars;
+                s.linkTrackVars = 'events,products';
+                s.linkTrackEvents = 'event35';
+                s.events = 'event35';
+          s.products = ';' + {JS Product ID};
+                s.tl(this,'o','sizing guide');
+                s.linkTrackVars = s.origVars;
+                s.linkTrackEvents = 'None';
+        }*/
+
+        /*else if(element.hasParent('.mt_item a')){
+                        dataLayer.push({
+                                'event': 'monetate_click',
+                                'monetateProduct': element.hasParent('.mt_item a',true).attr('data-pid')
+                        });
+                        s.origVars = s.linkTrackVars;
+                        s.linkTrackVars = 'events,eVar58,products';
+                        s.linkTrackEvents = 'event78';
+                        s.events = 'event78';
+                      s.products = ';' + {JS Product ID};
+                        s.eVar58 = element.hasParent('.mt_item a',true).attr('data-pid');
+                        s.tl(this,'o','monetate click');
+                        s.linkTrackVars = s.origVars;
+                        s.linkTrackEvents = 'None';
+                }*/
+        else if (element.is('.s7button') && !element.is('#s7zoom_fullScreenButton')) {
+          dataLayer.push({
+            'event': 'imageZoom'
+          });
+          if ({{PDP imageZoom Interaction}} == 'true') {
+            var s = s_gi(s_account);
+            s.origVars = s.linkTrackVars;
+            s.linkTrackVars = 'events,products';
+            s.linkTrackEvents = 'event42';
+            s.events = 'event42';
+            s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+            s.tl(this, 'o', 'image zoom');
+            s.linkTrackVars = s.origVars;
+            s.linkTrackEvents = 'None';
+          }
+        } else if (element.is('.notify-me-active')) {
+          var s = s_gi(s_account);
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,products';
+          s.linkTrackEvents = 'event117'
+          s.events = 'event117';
+          s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+          s.tl(this, 'o', 'Notify Me');
+          s.linkTrackEvents = "None";
+          s.linkTrackVars = s.origVars;
+        } else if (element.is('.find-size-btn-js') || element.hasParent('.find-size-btn-js')) {
+          var s = s_gi(s_account);
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,products';
+          s.linkTrackEvents = 'event35'
+          s.events = 'event35';
+          s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+          s.tl(this, 'o', 'Size Chart');
+          s.linkTrackEvents = "None";
+          s.linkTrackVars = s.origVars;
+        } else if (element.is('.add-to-wishlist-js')) {
+          var s = s_gi(s_account);
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,products';
+          s.linkTrackEvents = 'event32'
+          s.events = 'event32';
+          s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+          s.tl(this, 'o', 'Add to Wishlist');
+          s.linkTrackEvents = "None";
+          s.linkTrackVars = s.origVars;
+        } else if (element.is('.product-content-form-attr-box')) {
+          if (!element.hasClass('clicked')) {
+            var s = s_gi(s_account);
+            s.origVars = s.linkTrackVars;
+            s.linkTrackVars = 'eVar73,products';
+            s.eVar73 = element.text();
+            s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+            s.tl(this, 'o', 'Size Options');
+            s.linkTrackEvents = "None";
+            s.linkTrackVars = s.origVars;
+          }
+        } else if(element.is('.product-content-info-write-review-link')){
+          var s = s_gi(s_account);
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,products';
+          s.linkTrackEvents = 'event38';
+          s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+          s.events = 'event38';
+          s.tl(this,'o','Write Review');
+          s.linkTrackVars = s.origVars;
+          s.linkTrackEvents = 'None';
+        } else if(element.is('.product-content-info-review-count-link')){
+          var s = s_gi(s_account);
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,products';
+          s.linkTrackEvents = 'event23';
+          s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+          s.events = 'event23';
+          s.tl(this,'o','Read Review');
+          s.linkTrackVars = s.origVars;
+          s.linkTrackEvents = 'None';
+        } else if(element.is('.pr-write-review-link')){
+          var s = s_gi(s_account);
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,products';
+          s.linkTrackEvents = 'event39';
+          s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+          s.events = 'event39';
+          s.tl(this,'o','PowerReview Write Review');
+          s.linkTrackVars = s.origVars;
+          s.linkTrackEvents = 'None';
+        } else if(element.is('[data-pr-event="footer-page-next-link"]')){
+          var s = s_gi(s_account);
+          s.origVars = s.linkTrackVars;
+          s.linkTrackVars = 'events,products';
+          s.linkTrackEvents = 'event103';d
+          s.products = ';' + {{DL Ecommerce}}.detail.products[0].id;
+          s.events = 'event103';
+          s.tl(this,'o','PowerReview Load Review');
+          s.linkTrackVars = s.origVars;
+          s.linkTrackEvents = 'None';
+        }
+      });
+    });
+  } catch (err) {
+    var e = "Adobe Analytics - PDP page - " + err;
+    dataLayer.push({
+      'event': 'AAtagError',
+      'AAtagName': e
+    });
+    console.log(e);
+  }
+</script>

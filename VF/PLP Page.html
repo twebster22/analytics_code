@@ -1,0 +1,97 @@
+//<script type="text/javascript">
+
+  try {
+    var s=s_gi({{LU s_account}});
+    var pageName = {{k AA Channel}} + ":" + {{DL Page Category}};
+
+  	var breadcrumbArr = {{DL Breadcrumb}}.split("/");
+    s.pageName = pageName + ':' + {{DL Page Code Name}}.replace(/SC_*.{2}_/,'');
+    s.channel = {{k AA Channel}};
+    s.server = {{JS getServer}};
+
+  	s.eVar3 = {{DL Page Category}};
+
+    //ignore the last breadcrumb value, since that will be part of the pageName.
+  	if (breadcrumbArr.length > 0) {
+  		if((/home/i).test(breadcrumbArr[0])){
+			s.prop1 = {{DL Page Category}}
+		}
+  		else{
+      		s.prop1 = breadcrumbArr[0];
+        }
+    }
+
+    if (breadcrumbArr.length > 1) {
+        s.prop2 = breadcrumbArr[1];
+      	s.eVar4 = breadcrumbArr[1];
+      	dataLayer.push({'subcategory': breadcrumbArr[1]});
+    }
+
+  	if (breadcrumbArr.length > 2) {
+        s.prop3 = breadcrumbArr[2];
+      	s.eVar4 = breadcrumbArr[2];
+      	dataLayer.push({'subcategory2': breadcrumbArr[2]});
+    }
+
+
+    s.t();
+    require(["jquery"], function() {
+    jQuery(document).on('mousedown', function(event) {
+  	var element = jQuery(event.target);
+  	//Click on Color
+  	if (element.is('.product-block-color-swatches img')) {
+  		var color = element.attr('alt');
+  		var productID = element.attr('id');
+  		dataLayer.push({
+  			'event': 'colorClick',
+  			'color': color,
+  			'productClicked': productID
+  		});
+  		if ({{colorClick Interaction}} == 'true') {
+  			s.origVars = s.linkTrackVars;
+  			s.linkTrackVars = 'events,eVar40';
+  			s.linkTrackEvents = 'event28';
+  			s.events = 'event28';
+  			s.eVar40 = color;
+  			s.products = ';' + productID + ';;;;';
+  			s.tl(this, 'o', 'PLP Color Click');
+  			s.linkTrackVars = s.origVars;
+  			s.linkTrackEvents = 'None';
+  		}
+  	}
+    else if(element.hasParent('.product-block')){
+      var productID = element.hasParent('.product-block',true).attr('data-part-number');
+      s.origVars = s.linkTrackVars;
+      s.linkTrackVars = 'events,products';
+      s.linkTrackEvents = 'event21';
+      s.events = 'event21';
+      s.products = ';'+ productID + ';;;;';
+      s.tl(this, 'o', 'product click');
+      s.linkTrackVars = s.origVars;
+      s.linkTrackEvents = 'None';
+    }
+  });
+  //sorting
+  jQuery(document).on('change', function() {
+  var element = jQuery(event.target);
+  if (element.is('#sort-by')) {
+  	var sortBy = element.val() == "" ? "Relevance" : jQuery('#sort-by option[value = "' + element.val() + '"]').text()
+  	dataLayer.push({
+  		'event': 'sortBy',
+  		'sortByOption': sortBy
+  	});
+  	s.origVars = s.linkTrackVars;
+  	s.linkTrackVars = 'events,eVar38';
+  	s.linkTrackEvents = 'event30';
+  	s.events = 'event30';
+  	s.eVar38 = sortBy;
+  	s.tl(this, 'o', 'sort by');
+  	s.linkTrackVars = s.origVars;
+  	s.linkTrackEvents = 'None';
+  }
+  });
+  });
+
+  } catch (err) { var e = "Adobe Analytics - Category pages - " + err; dataLayer.push({'event':'AAtagError','AAtagName': e }); console.log(e); }
+
+//</script>

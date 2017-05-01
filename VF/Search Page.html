@@ -42,8 +42,8 @@
           var productID = element.hasParent('.product-block',true).attr('data-part-number');
           s.origVars = s.linkTrackVars;
           s.linkTrackVars = 'events,products';
-          s.linkTrackEvents = 'event15';
-          s.events = 'event15';
+          s.linkTrackEvents = 'event15,event21';
+          s.events = 'event15,event21';
           s.products = ';'+ productID + ';;;;';
           s.tl(this, 'o', 'onsite search result click');
           s.linkTrackVars = s.origVars;
